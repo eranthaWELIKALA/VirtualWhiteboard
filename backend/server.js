@@ -16,6 +16,7 @@ const PORT = process.env.PORT || 5000;
 // In-memory sessions
 const sessions = {}; // sessionId -> { history: [], users: [ { username, socketId } ] }
 const userSocketMap = new Map(); // socketId -> { sessionId, username }
+const sessionCleanupTimeouts = new Map();
 
 io.on("connection", (socket) => {
     console.log("Client connected:", socket.id);
@@ -35,6 +36,10 @@ io.on("connection", (socket) => {
                 users: [],
                 activityLog: [],
             };
+        }
+        if (sessionCleanupTimeouts.has(sessionId)) {
+            clearTimeout(sessionCleanupTimeouts.get(sessionId));
+            sessionCleanupTimeouts.delete(sessionId);
         }
         socket.emit("activity-log-update", sessions[sessionId].activityLog);
 
@@ -102,7 +107,16 @@ io.on("connection", (socket) => {
                 );
 
                 if (session.users.length === 0) {
-                    delete sessions[sessionId];
+                    // Schedule session deletion after 1 hour (3600000 ms)
+                    const timeoutId = setTimeout(() => {
+                        delete sessions[sessionId];
+                        sessionCleanupTimeouts.delete(sessionId);
+                        console.log(
+                            `Session ${sessionId} deleted due to inactivity.`
+                        );
+                    }, 3600000); // 1 hour in milliseconds
+
+                    sessionCleanupTimeouts.set(sessionId, timeoutId);
                 } else {
                     io.to(sessionId).emit("user-left", { username });
                     io.to(sessionId).emit(
