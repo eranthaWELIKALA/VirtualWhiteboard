@@ -50,7 +50,8 @@ npm start
 Visit: http://localhost:3000
 
 📸 Demo
-[![Watch Demo](https://img.youtube.com/vi/dQw4w9WgXcQ/0.jpg)](https://github.com/eranthaWELIKALA/VirtualWhiteboard/blob/main/VirtualWhiteboard.mp4)
+
+[![Watch Demo](https://cdn.prod.website-files.com/5f62665342c50cb6bf43a1e6/646527c51c36eb336d09fc29_AdobeStock_122454272-min.jpeg)]([https://github.com/eranthaWELIKALA/VirtualWhiteboard/blob/main/VirtualWhiteboard.mp4](https://youtu.be/yKZc2Sxn1u4))
 
 
 
