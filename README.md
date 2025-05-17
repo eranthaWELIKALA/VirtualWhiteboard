@@ -40,7 +40,7 @@ npm install
 npm start
 ```
 
-# Start frontend (in another terminal)
+### Start frontend (in another terminal)
 ```bash
 cd client
 npm start
